@@ -1,0 +1,208 @@
+{% extends "IAA_d/base.html" %}
+{% block content %}
+<div class="container__m">
+    <div class="container_desc">
+        <br>
+        <h1 class="tit_h">{{dd.name}} -- {{t}}</h1>
+        <br>
+        <p class="tit_des">Description: <br>{{dd.description}}</p><br><br>
+    </div>
+    {% if dt %}
+    <div class="chart-container" style="position: relative; height:60vh; width:100%">
+              <canvas id="myChart" ></canvas>
+    </div>
+     <div class="chart-container1" style="position: relative; height:60vh; width:100%">
+              <canvas id="myChart1" ></canvas>
+    </div>
+     <div class="chart-container2" style="position: relative; height:60vh; width:100%">
+              <canvas id="myChart2" ></canvas>
+    </div>
+     <div class="chart-container3" style="position: relative; height:60vh; width:100%">
+              <canvas id="myChart3" ></canvas>
+    </div>
+    {%else%}
+       <p>This Ticker Is Not Active</p>
+    {%endif%}
+
+</div>
+{% if dt %}
+<div class="container__main">
+        <h1 class="heading">Today's price data</h1>
+        <table >
+            <tr>
+             <th>Date</th>
+             <th>Open</th>
+             <th>High</th>
+             <th>Low</th>
+             <th>Close</th>
+         </tr>
+        {% for i in td %}
+         <tr>
+            <td>{{i.date}} </td>
+            <td>${{i.open}}</td>
+            <td>${{i.high}}</td>
+            <td>${{i.low}}</td>
+            <td>${{i.close}}</td>
+          </tr>
+    {% endfor %}
+         </table>
+    </div>
+{%endif%}
+ {% if not hd %}
+   <div class="holiday">
+        <p>There is no trading today .</p>
+    </div>
+
+ {%else%}
+    <div class="chart-container4" style="position: relative; height:100vh; width:100% ; bottom:100px;">
+              <canvas id="myChart4" ></canvas>
+        <div class="stock-btn">
+            <form action="{%url 'buystock' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" value="{{t}}" name="ticker">
+               <button type="submit" class="st-btn">BUY STOCK</a></button>
+            </form>
+        </div>
+    </div>
+ {% endif %}
+
+{% endblock %}
+{%block scripts%}
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data:{
+        labels: [{% for item in dt %}'{{item.date}}',{%endfor%}],
+        datasets: [{
+            label: 'open price for {{dd.name}}',
+            data: [{% for item in dt %}{{item.open}} ,{%endfor%}],
+            backgroundColor: [
+                '#313133',
+            ],
+            borderColor: [
+                '#ff3030',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+		maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+var ctx1 = document.getElementById('myChart1').getContext('2d');
+var myChart1 = new Chart(ctx1, {
+    type: 'line',
+    data:{
+        labels: [{% for item in dt %}'{{item.date}}',{%endfor%}],
+        datasets: [{
+            label: 'high price for {{dd.name}}',
+            data: [{% for item in dt %}{{item.high}} ,{%endfor%}],
+            backgroundColor: [
+                '#400d0d',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    responsive: true,
+	maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+var ctx2 = document.getElementById('myChart2').getContext('2d');
+var myChart2 = new Chart(ctx2, {
+    type: 'line',
+    data:{
+        labels: [{% for item in dt %}'{{item.date}}',{%endfor%}],
+        datasets: [{
+            label: 'Low price for {{dd.name}}',
+            data: [{% for item in dt %}{{item.low}} ,{%endfor%}],
+            backgroundColor: [
+                '#0d4c52',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    responsive: true,
+	maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+var ctx3 = document.getElementById('myChart3').getContext('2d');
+var myChart3 = new Chart(ctx3, {
+    type: 'line',
+    data:{
+        labels: [{% for item in dt %}'{{item.date}}',{%endfor%}],
+        datasets: [{
+            label: 'Close price for {{dd.name}}',
+            data: [{% for item in dt %}{{item.close}} ,{%endfor%}],
+            backgroundColor: [
+                '#5e1244',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    responsive: true,
+	maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+var ctx4 = document.getElementById('myChart4').getContext('2d');
+var myChart4 = new Chart(ctx4, {
+    type: 'line',
+    data:{
+        labels: [{% for item in hd %}'{{item.date}}',{%endfor%}],
+        datasets: [{
+            label: 'open price for {{dd.name}}',
+            data: [{% for item in hd %}{{item.open}} ,{%endfor%}],
+            backgroundColor: [
+                '#313133',
+            ],
+            borderColor: [
+                '#ff3030',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+		maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{%endblock scripts%}

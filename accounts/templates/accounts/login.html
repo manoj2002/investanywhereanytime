@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static%}
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{% static '/css/login.css' %}">
+</head>
+<body>
+<script>
+     function validate_login()
+		 {
+		   var n=document.loginform.username.value;
+		   var p=document.loginform.password.value;
+		   if(n=="" || n==null)
+		   {
+		     alert("Name Can't be Empty");
+			 return false;
+		   }
+		   else if (p.length <5)
+		   {
+		     alert("Password Must Be Of Length 6 Characters");
+			 return false;
+			}
+         }
+</script>
+ <div class="hero">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags%} class="{{message.tags}}" {% endif %}>
+                        {{ message}}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <img src="{{'/media/ll.png'}}" class="img_l"></img>
+            <h1 class="welcome-text">Welcome To IAA</h1>
+            <div class="form-box">
+                <div class="button-box">
+                    <div id="btn"></div>
+                    <button type="button" class="toggle-btn" >Log In</button>
+                    <a href="{%url 'register' %}"><button type="button" class="toggle-btn" >Register</button></a>
+                </div>
+                <form onsubmit="return validate_login()" name="loginform" id="login" class="input-group" action="{%url 'login' %}" method="post">
+                    {% csrf_token%}
+                    <input type="text" name="username" class="input-field" placeholder="username">
+                    <input type="password" name="password" class="input-field" placeholder="password">
+                    <input type="checkbox" class="check-box"><span id="s">Remember Me</span>
+                    <button type="submit" class="submit-btn">Log In</button><br><br>
+                    <a href="#" class="f">Forgot Password?</a>
+                </form>
+            </div>
+ </div>
+</body>
+</html>

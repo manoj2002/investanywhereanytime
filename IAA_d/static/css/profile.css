@@ -1,0 +1,21 @@
+body{
+   background-color:#451a17;
+}
+.profile__container{
+    background-color:#545353;
+    width:400px;
+    margin-left:35%;
+    align-items:center;
+    margin-top:5%;
+    border-radius:20%;
+}
+.profile__container h1{
+   font-size:15px;
+   color:whitesmoke;
+}
+.profile__container p{
+   color:whitesmoke;
+}
+.profile_img{
+    margin-left:50px;
+}

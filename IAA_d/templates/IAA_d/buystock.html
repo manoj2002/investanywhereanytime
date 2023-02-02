@@ -1,0 +1,28 @@
+{% extends "IAA_d/base.html" %}
+{%block content%}
+
+     <div class="buystock">
+         <h1 class="he">Buy Stock for {{t}}</h1>
+                <form id="buy" class="buy-group" action="{%url 'buydata' %}" method="post">
+                    {% csrf_token%}
+                    <input type="hidden" name="tick_data" value="{{t}}">
+                    <input type="hidden" name="tick_name" value="{{dd.name}}">
+                    <input type="hidden" name="username" value="{{user.username}}">
+                    Quantity(between 1-10):<input type="number" id="quantity" name="quantity" class="input-field" min="1" max="10" placeholder="Quantity" required>
+                    Amount(open price):<input type="number" id="amount" name="amount" class="input-field" placeholder="amount" value="{{td}}"required>
+                    Total Amount:<input type="text" id="t-amount" name="t-amount" class="input-field" placeholder="total amount" onclick="conval()" required>
+                    <input type="checkbox" class="check-box"><span id="s">I Agree With All Terms & Conditions</span>
+                    <button type="submit" class="submit-btn">Buy</button><br><br>
+
+                </form>
+     </div>
+{%endblock%}
+{%block scripts%}
+<script>
+   function conval(){
+    var a=document.getElementById("quantity").value;
+    var b=document.getElementById("amount").value;
+    document.getElementById("t-amount").value=(a*b);
+}
+</script>
+{% endblock scripts %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{% static '/css/login.css' %}">
+
+</head>
+<body>
+<script>
+    function validate_signup()
+		{
+		   var f=document.signupform.first_name.value;
+		   var l=document.signupform.last_name.value;
+		   var e=document.signupform.email.value;
+		   var m=document.signupform.username.value;
+		   var p=document.signupform.password1.value;
+		   var rp=document.signupform.password2.value;
+		   if(f=="" ||f==null )
+		   {
+		     alert("Please Enter First Name It Can't Be Empty");
+			 return false;
+		   }
+		   else if( l=="" || l==null)
+		   {
+		     alert("Please Enter Last Name It Can't Be Empty");
+			 return false;
+		   }
+		   else if(m==""||m==null)
+		   {
+		      alert("Please Enter username");
+			  return false;
+		   }
+		   else if(p.length <8)
+		   {
+		      alert("Please Enter Password Of Length 8 Characters");
+			  return false;
+		   }
+		   else if(p!=rp)
+		   {
+		      alert("Both Passwords Didn't Match Enter Correct Password");
+			  return false;
+		   }
+		}
+</script>
+<div class="hero">
+            <img src="{{'/media/ll.png'}}" class="img_l"></img>
+            <h1 class="welcome-text">Welcome To IAA</h1>
+            <div class="form-boxl">
+                <div class="button-box">
+                    <div id="btn"></div>
+                    <button type="button" class="toggle-btn" >Register</button>
+                    <a href="{%url 'login' %}"><button type="button" class="toggle-btn" >Log In</button></a>
+                </div>
+                <form onsubmit="return validate_signup()" name="signupform"  id="register" class="input-groupr" action="{%url 'register' %}" method="post">
+                    {% csrf_token%}
+                    <input type="text" name="first_name" class="input-field" placeholder="First Name">
+                    <input type="text" name="last_name" class="input-field" placeholder="Last Name">
+                    <input type="email" name="email" class="input-field" placeholder="Email">
+                    <input type="text" name="username" class="input-field" placeholder="Username">
+                    <input type="password" name="password1" class="input-field" placeholder=" Enter Password">
+                    <input type="password" name="password2" class="input-field" placeholder="Confirm Password">
+                    <input type="checkbox" class="check-box"><span id="l">I Agree to terms & conditions</span>
+                    <button type="submit" class="submit-btn">Register</button>
+                </form>
+            </div>
+ </div>
+</body>
+</html>

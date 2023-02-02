@@ -1,0 +1,53 @@
+{% extends "IAA_d/base.html" %}
+{% block content%}
+   <div class="container__main">
+         {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags%} class="{{message.tags}}" {% endif %}>
+                        {{ message}}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+   <form action="{% url 'sellstock' %}" method="post" class="tickerform">
+       {% csrf_token %}
+       <input type="text" class="ticker" name="ticker">
+       <input type="submit" value="search" class="search-btn">
+   </form>
+    </div>
+   <div class="container">
+  <h2 class="text-center">sell Stock</h2><br>
+  <table >
+      <tr>
+        <th>Name</th>
+        <th>Ticker</th>
+        <th>Quantity</th>
+        <th>SELL</th>
+      </tr>
+    {% if data %}
+    {% for d in data %}
+    <tr>
+      <td>{{d.name}}</td>
+      <td>{{d.ticker}}</td>
+      <td>{{d.quantity}}</td>
+      <td>
+        <form action="{%url 'selldata' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="username" value="{{user.username}}">
+          <input type="hidden" name="ticker" value="{{d.ticker}}">
+            <input type="hidden" name="name" value="{{d.name}}">
+          <input type="text" name="quantity" placeholder="Enter Quantity" class="selltxt">
+          <input type="submit" value="sell" class="sellbtn">
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+    {%else%}
+       <p>You Haven't Bought Any Stock Till Now</p>
+    {% endif %}
+
+  </table>
+</div>
+
+{% endblock %}
